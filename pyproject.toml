@@ -1,0 +1,26 @@
+[project]
+name = "projetos"
+version = "0.1.0"
+description = "Pipeline ETL de dados meteorológicos orquestrado com Apache Airflow"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pandas>=3.0.5",
+    "psycopg2-binary>=2.9.12",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+    "sqlalchemy>=2.0.52",
+]
+
+[project.scripts]
+projetos = "projetos:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+]
+
