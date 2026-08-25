@@ -1,0 +1,28 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# Secrets and local configuration
+.env
+**/.env
+
+# Airflow runtime files
+logs/
+config/airflow.cfg
+
+# Generated data and notebook cache
+data/*.json
+.ipynb_checkpoints/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+
