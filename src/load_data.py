@@ -15,11 +15,13 @@ load_dotenv(env_path)
 user = os.getenv('user')
 password = os.getenv('password')
 database = os.getenv('data_base')
-host = 'localhost'
+host = os.getenv('DB_HOST', 'postgres')
+port = os.getenv('DB_PORT', '5432')
 
 def get_engine():
     return create_engine(
-        f"postgresql+psycopg2://{user}:{quote_plus(password)}@{host}:5432/{database}"
+        f"postgresql+psycopg2://{user}:{quote_plus(password)}"
+        f"@{host}:{port}/{database}"
     )
 
 engine = get_engine()
