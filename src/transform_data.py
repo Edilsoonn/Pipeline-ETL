@@ -46,7 +46,7 @@ def create_dataframe(path_name:str) -> pd.DataFrame:
         data = json.load(f)
 
     df = pd.json_normalize(data)
-    logging.info(f"\ DataFrame criado com {len(df)} linha(s)")
+    logging.info(f"DataFrame criado com {len(df)} linha(s)")
     return df
 
 def normalize_weather_columns(df: pd.DataFrame) -> pd.DataFrame:
