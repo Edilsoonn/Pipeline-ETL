@@ -13,7 +13,7 @@ OpenWeather API -> extração JSON -> transformação com Pandas -> PostgreSQL
 
 ## Tecnologias
 
-- Python 3.14
+- Python 3.12
 - Apache Airflow 3.1.7
 - Pandas e SQLAlchemy
 - PostgreSQL e Redis
@@ -26,6 +26,7 @@ OpenWeather API -> extração JSON -> transformação com Pandas -> PostgreSQL
 src/extract_data.py    # consulta da API e persistência em JSON
 src/transform_data.py  # normalização e tratamento dos dados
 src/load_data.py       # carga no PostgreSQL
+dags/weather_dag.py    # orquestração horária do pipeline
 notebooks/             # análise exploratória
 docker-compose.yaml    # ambiente local do Airflow
 ```
@@ -57,10 +58,13 @@ API_KEY=sua_chave_openweather
 data_base=nome_do_banco
 user=usuario_postgres
 password=senha_postgres
+DB_HOST=postgres
+DB_PORT=5432
 ```
 
 ## Status
 
-Até o momento, as etapas de extração, transformação e carga foram implementadas separadamente, e a infraestrutura local do Airflow está configurada. O próximo passo é transformar as etapas em uma DAG e acrescentar testes automatizados.
+A pipeline completa está orquestrada pela DAG `weather_dag`, executada a cada hora. Ela extrai os dados da OpenWeather, transforma e persiste um arquivo Parquet e carrega os registros na tabela `sp_weather` do PostgreSQL em container. O próximo passo é acrescentar testes automatizados e monitoramento.
 
 > Projeto de estudo em evolução. Nenhuma credencial é armazenada no repositório.
+
