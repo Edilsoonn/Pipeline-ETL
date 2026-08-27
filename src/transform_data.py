@@ -1,11 +1,14 @@
-import pandas as pd
+import pandas as pd 
 from pathlib import Path
 import json
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Localiza o JSON bruto independentemente do diretório de execução.
 path_name = Path(__file__).parent.parent / 'data' / 'weather_data.json'
+
+# Centraliza as regras de limpeza e padronização das colunas.
 columns_names_to_drop = ['weather', 'weather_icon', 'sys.type']
 columns_name_to_rename = {
     "base": "base",
@@ -45,11 +48,13 @@ def create_dataframe(path_name:str) -> pd.DataFrame:
     with open(path) as f:
         data = json.load(f)
 
+    # Achata os campos aninhados do JSON em colunas tabulares.
     df = pd.json_normalize(data)
     logging.info(f"DataFrame criado com {len(df)} linha(s)")
     return df
 
 def normalize_weather_columns(df: pd.DataFrame) -> pd.DataFrame:
+    # A API retorna "weather" como lista; usamos o primeiro clima informado.
     df_weather = pd.json_normalize(df['weather'].apply(lambda x: x[0]))
 
     df_weather = df_weather.rename(columns={
@@ -82,6 +87,7 @@ def normalize_datetime_columns(df: pd.DataFrame, columns_names: list[str]) -> pd
     logging.info(f"\nNormalizando colunas de datetime: {columns_names}")
 
     for name in columns_names:
+        # Converte Unix timestamp em data/hora no fuso de São Paulo.
         df[name] = (
             pd.to_datetime(df[name], unit="s", utc=True)
             .dt.tz_convert("America/Sao_Paulo")
@@ -92,6 +98,7 @@ def normalize_datetime_columns(df: pd.DataFrame, columns_names: list[str]) -> pd
 
 def data_transfomation():
     print("Iniciando transformação de dados...")
+    # Aplica as transformações em sequência e devolve o DataFrame pronto.
     df = create_dataframe(path_name)
     df = normalize_weather_columns(df)
     df = drop_columns(df, columns_names_to_drop)
