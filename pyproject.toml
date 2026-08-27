@@ -3,7 +3,7 @@ name = "projetos"
 version = "0.1.0"
 description = "Pipeline ETL de dados meteorológicos orquestrado com Apache Airflow"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "pandas>=3.0.5",
     "psycopg2-binary>=2.9.12",
